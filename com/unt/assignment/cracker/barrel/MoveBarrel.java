@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.unt.assignment.cracker.barrel;
 import java.util.*;
 
 class MoveBarrel

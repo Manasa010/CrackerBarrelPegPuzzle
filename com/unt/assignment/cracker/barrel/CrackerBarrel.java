@@ -1,23 +1,24 @@
+package com.unt.assignment.cracker.barrel;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Cracker
+public class CrackerBarrel
 {
     static StepList steps() 
     { return new StepList(); }
 
-    static ArrayList<LinkedList<Move>> solve(Board b)
+    static ArrayList<LinkedList<MoveBarrel>> solve(Board b)
     {
-        ArrayList<LinkedList<Move>> out = new ArrayList<LinkedList<Move>>();
+        ArrayList<LinkedList<MoveBarrel>> out = new ArrayList<LinkedList<MoveBarrel>>();
         solve(b, out, 0);
 
         return out;
     }
 
-    static LinkedList<Move> firstSolution(Board b)
+    static LinkedList<MoveBarrel> firstSolution(Board b)
     {
-        ArrayList<LinkedList<Move>> out = new ArrayList<LinkedList<Move>>();
+        ArrayList<LinkedList<MoveBarrel>> out = new ArrayList<LinkedList<MoveBarrel>>();
         solve(b, out, 1);
 
         if (out.size() == 0) // sanity
@@ -26,23 +27,23 @@ public class Cracker
         return out.get(0);
     }
 
-    static void solve(Board b, ArrayList<LinkedList<Move>> solutions, int count)
+    static void solve(Board b, ArrayList<LinkedList<MoveBarrel>> solutions, int count)
     {
         if (b.pegCount == 1)
         {
-            solutions.add(new LinkedList<Move>());
+            solutions.add(new LinkedList<MoveBarrel>());
             return;
         }
 
-        for (Move m : steps()) 
+        for (MoveBarrel m : steps()) 
         {
             Board boardAfter = b.move(m);
             if (boardAfter == null) continue;
 
-            ArrayList<LinkedList<Move>> tailSolutions = new ArrayList<LinkedList<Move>>();
+            ArrayList<LinkedList<MoveBarrel>> tailSolutions = new ArrayList<LinkedList<MoveBarrel>>();
             solve(boardAfter, tailSolutions, count);
 
-            for (LinkedList<Move> solution : tailSolutions)
+            for (LinkedList<MoveBarrel> solution : tailSolutions)
             {
                 solution.add(0, m);
                 solutions.add(solution);
@@ -84,10 +85,10 @@ public class Cracker
         System.out.println();
     }
 
-    static void replay(List<Move> moves, Board b)
+    static void replay(List<MoveBarrel> moves, Board b)
     {
         show(b);
-        for (Move m : moves)
+        for (MoveBarrel m : moves)
         {
             b = b.move(m);
             show(b);
@@ -100,8 +101,8 @@ public class Cracker
         {
             Board b = new Board(i);
             printBoard(b);
-            List<Move> moves = firstSolution(b);
-            for (Move m : moves) 
+            List<MoveBarrel> moves = firstSolution(b);
+            for (MoveBarrel m : moves) 
             {
                 System.out.println(m);
                 b = b.move(m);
