@@ -8,7 +8,7 @@ public class CrackerBarrel
     static StepList steps() 
     { return new StepList(); }
 
-    static ArrayList<LinkedList<MoveBarrel>> solve(Board b)
+    static ArrayList<LinkedList<MoveBarrel>> solve(BarrelBoard b)
     {
         ArrayList<LinkedList<MoveBarrel>> out = new ArrayList<LinkedList<MoveBarrel>>();
         solve(b, out, 0);
@@ -16,7 +16,7 @@ public class CrackerBarrel
         return out;
     }
 
-    static LinkedList<MoveBarrel> firstSolution(Board b)
+    static LinkedList<MoveBarrel> firstBarrelSolution(BarrelBoard b)
     {
         ArrayList<LinkedList<MoveBarrel>> out = new ArrayList<LinkedList<MoveBarrel>>();
         solve(b, out, 1);
@@ -27,7 +27,7 @@ public class CrackerBarrel
         return out.get(0);
     }
 
-    static void solve(Board b, ArrayList<LinkedList<MoveBarrel>> solutions, int count)
+    static void solve(BarrelBoard b, ArrayList<LinkedList<MoveBarrel>> solutions, int count)
     {
         if (b.pegCount == 1)
         {
@@ -37,7 +37,7 @@ public class CrackerBarrel
 
         for (MoveBarrel m : steps()) 
         {
-            Board boardAfter = b.move(m);
+        	BarrelBoard boardAfter = b.move(m);
             if (boardAfter == null) continue;
 
             ArrayList<LinkedList<MoveBarrel>> tailSolutions = new ArrayList<LinkedList<MoveBarrel>>();
@@ -54,7 +54,7 @@ public class CrackerBarrel
         }
     }
 
-    static void printBoard(Board b)
+    static void printBoard(BarrelBoard b)
     {
         System.out.print("(" + b.pegCount + ", [");
         for (int i = 0; i < b.cells.length; i++)
@@ -62,7 +62,7 @@ public class CrackerBarrel
         System.out.println();
     }
 
-    static void show(Board b)
+    static void show(BarrelBoard b)
     {
         int[][] lines = { {4,0,0}, {3,1,2}, {2,3,5}, {1,6,9}, {0,10,14} };
         for (int[] l : lines)
@@ -85,7 +85,7 @@ public class CrackerBarrel
         System.out.println();
     }
 
-    static void replay(List<MoveBarrel> moves, Board b)
+    static void replayGame(List<MoveBarrel> moves, BarrelBoard b)
     {
         show(b);
         for (MoveBarrel m : moves)
@@ -97,11 +97,11 @@ public class CrackerBarrel
 
     static void terse()
     {
-        for (int i = 0; i < 15; i++)
+        for (int y = 0; y < 15; y++)
         {
-            Board b = new Board(i);
+        	BarrelBoard b = new BarrelBoard(y);
             printBoard(b);
-            List<MoveBarrel> moves = firstSolution(b);
+            List<MoveBarrel> moves = firstBarrelSolution(b);
             for (MoveBarrel m : moves) 
             {
                 System.out.println(m);
@@ -112,26 +112,21 @@ public class CrackerBarrel
         }
     }
 
-    static void go()
+    static void start()
     {
-        for (int i = 0; i < 5; i++)
+        for (int x = 0; x < 5; x++)
         {
-            System.out.println("=== " + i + " ===");
-            Board b = new Board(i);
-            replay(firstSolution(b), b);
+            System.out.println("=== " + x + " ===");
+            BarrelBoard b = new BarrelBoard(x);
+            replayGame(firstBarrelSolution(b), b);
             System.out.println();
         }
     }
 
     public static void main(String[] args)
     {
-        go();
-        terse();
-
-        // This is how you can get all solutions for a particular board.
-
-        //List<LinkedList<Move>> sols = solve(new Board(0));
-        //System.out.println(sols.size());
+        start();
+        //terse();
     }
 }
 

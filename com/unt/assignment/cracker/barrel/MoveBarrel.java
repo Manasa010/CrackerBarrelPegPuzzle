@@ -24,12 +24,12 @@ class MoveBarrel
     }
 }
 
-class Board
+class BarrelBoard
 {
     public int pegCount;
     public int[] cells;
 
-    public Board(int emptyCell)
+    public BarrelBoard(int emptyCell)
     {
         cells = new int[15];
         pegCount = 14;
@@ -37,19 +37,19 @@ class Board
             cells[i] = i == emptyCell ? 0 : 1;
     }
 
-    public Board(int pegCount, int[] cells)
+    public BarrelBoard(int pegCount, int[] cells)
     {
         this.pegCount = pegCount;
         this.cells    = cells.clone();
     }
 
-    public Board move(MoveBarrel m)
+    public BarrelBoard move(MoveBarrel m)
     {
         if (cells[m.from] == 1 && 
             cells[m.over] == 1 && 
             cells[m.to]   == 0) 
         {
-            Board boardAfter = new Board(pegCount-1, cells.clone());
+        	BarrelBoard boardAfter = new BarrelBoard(pegCount-1, cells.clone());
             boardAfter.cells[m.from] = 0;
             boardAfter.cells[m.over] = 0;
             boardAfter.cells[m.to]   = 1;
