@@ -95,22 +95,6 @@ public class CrackerBarrel
         }
     }
 
-    static void terse()
-    {
-        for (int y = 0; y < 15; y++)
-        {
-        	BarrelBoard b = new BarrelBoard(y);
-            printBoard(b);
-            List<MoveBarrel> moves = firstBarrelSolution(b);
-            for (MoveBarrel m : moves) 
-            {
-                System.out.println(m);
-                b = b.move(m);
-            }
-            printBoard(b);
-            System.out.println();
-        }
-    }
 
     static void start()
     {
@@ -126,7 +110,6 @@ public class CrackerBarrel
     public static void main(String[] args)
     {
         start();
-        //terse();
     }
 }
 
