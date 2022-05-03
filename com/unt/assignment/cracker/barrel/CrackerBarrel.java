@@ -5,16 +5,10 @@ import java.util.List;
 
 public class CrackerBarrel
 {
-    static StepList steps() 
-    { return new StepList(); }
+    static ListOfSteps allSteps() 
+    { return new ListOfSteps(); }
 
-    static ArrayList<LinkedList<MoveBarrel>> solve(BarrelBoard b)
-    {
-        ArrayList<LinkedList<MoveBarrel>> out = new ArrayList<LinkedList<MoveBarrel>>();
-        solve(b, out, 0);
-
-        return out;
-    }
+    
 
     static LinkedList<MoveBarrel> firstBarrelSolution(BarrelBoard b)
     {
@@ -29,15 +23,15 @@ public class CrackerBarrel
 
     static void solve(BarrelBoard b, ArrayList<LinkedList<MoveBarrel>> solutions, int count)
     {
-        if (b.pegCount == 1)
+        if (b.countOfPegs == 1)
         {
             solutions.add(new LinkedList<MoveBarrel>());
             return;
         }
 
-        for (MoveBarrel m : steps()) 
+        for (MoveBarrel m : allSteps()) 
         {
-        	BarrelBoard boardAfter = b.move(m);
+        	BarrelBoard boardAfter = b.movePegs(m);
             if (boardAfter == null) continue;
 
             ArrayList<LinkedList<MoveBarrel>> tailSolutions = new ArrayList<LinkedList<MoveBarrel>>();
@@ -56,9 +50,9 @@ public class CrackerBarrel
 
     static void printBoard(BarrelBoard b)
     {
-        System.out.print("(" + b.pegCount + ", [");
-        for (int i = 0; i < b.cells.length; i++)
-            System.out.print(i < b.cells.length-1 ? b.cells[i] + ", " : b.cells[i] + "])");
+        System.out.print("(" + b.countOfPegs + ", [");
+        for (int i = 0; i < b.boardCells.length; i++)
+            System.out.print(i < b.boardCells.length-1 ? b.boardCells[i] + ", " : b.boardCells[i] + "])");
         System.out.println();
     }
 
@@ -77,7 +71,7 @@ public class CrackerBarrel
 
             System.out.print(space);
             for (int i = begin; i <= end; i++)
-                System.out.print(b.cells[i] == 0 ? ". " : "x ");
+                System.out.print(b.boardCells[i] == 0 ? ". " : "x ");
 
             System.out.println();
         }
@@ -90,7 +84,7 @@ public class CrackerBarrel
         show(b);
         for (MoveBarrel m : moves)
         {
-            b = b.move(m);
+            b = b.movePegs(m);
             show(b);
         }
     }

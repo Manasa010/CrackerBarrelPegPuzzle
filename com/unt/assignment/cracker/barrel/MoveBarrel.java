@@ -26,48 +26,48 @@ class MoveBarrel
 
 class BarrelBoard
 {
-    public int pegCount;
-    public int[] cells;
+    public int countOfPegs;
+    public int[] boardCells;
 
-    public BarrelBoard(int emptyCell)
+    public BarrelBoard(int emptyCellOnBoard)
     {
-        cells = new int[15];
-        pegCount = 14;
+    	boardCells = new int[15];
+        countOfPegs = 14;
         for (int i = 0; i < 15; i++)
-            cells[i] = i == emptyCell ? 0 : 1;
+        	boardCells[i] = i == emptyCellOnBoard ? 0 : 1;
     }
 
-    public BarrelBoard(int pegCount, int[] cells)
+    public BarrelBoard(int pegsCount, int[] boardCells)
     {
-        this.pegCount = pegCount;
-        this.cells    = cells.clone();
+        this.countOfPegs = pegsCount;
+        this.boardCells    = boardCells.clone();
     }
 
-    public BarrelBoard move(MoveBarrel m)
+    public BarrelBoard movePegs(MoveBarrel m)
     {
-        if (cells[m.from] == 1 && 
-            cells[m.over] == 1 && 
-            cells[m.to]   == 0) 
+        if (boardCells[m.from] == 1 && 
+        	boardCells[m.over] == 1 && 
+        	boardCells[m.to]   == 0) 
         {
-        	BarrelBoard boardAfter = new BarrelBoard(pegCount-1, cells.clone());
-            boardAfter.cells[m.from] = 0;
-            boardAfter.cells[m.over] = 0;
-            boardAfter.cells[m.to]   = 1;
+        	BarrelBoard barrelBoardAfter = new BarrelBoard(countOfPegs-1, boardCells.clone());
+        	barrelBoardAfter.boardCells[m.from] = 0;
+        	barrelBoardAfter.boardCells[m.over] = 0;
+        	barrelBoardAfter.boardCells[m.to]   = 1;
 
-            return boardAfter;
+            return barrelBoardAfter;
         }
 
         return null;
     }
 }
 
-class StepIterator implements Iterator<MoveBarrel>
+class IteratorForSteps implements Iterator<MoveBarrel>
 {
     private MoveBarrel[] moves;
     private MoveBarrel   reversed;
     private int    i;
 
-    public StepIterator(MoveBarrel[] moves)
+    public IteratorForSteps(MoveBarrel[] moves)
     {
         this.moves = moves;
         this.i     = 0;
@@ -94,7 +94,7 @@ class StepIterator implements Iterator<MoveBarrel>
     }
 }
 
-class StepList implements Iterable<MoveBarrel>
+class ListOfSteps implements Iterable<MoveBarrel>
 {
     public static final MoveBarrel[] moves = 
     {
@@ -119,7 +119,7 @@ class StepList implements Iterable<MoveBarrel>
     };
 
     @Override
-    public StepIterator iterator()
-    { return new StepIterator(moves); }
+    public IteratorForSteps iterator()
+    { return new IteratorForSteps(moves); }
 }
 
